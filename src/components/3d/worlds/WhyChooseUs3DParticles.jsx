@@ -46,16 +46,21 @@ export default function WhyChooseUs3DParticles({ position }) {
   useFrame((state, delta) => {
     if (!groupRef.current) return;
     
-    const t = scroll.offset;
+    // Section progress: page 3 of 6 (offset 0.333 to 0.5)
+    const sectionProgress = scroll.range(2/6, 1/6);
     
-    // Gentle rotation
-    groupRef.current.rotation.y += delta * 0.2;
+    // Gentle rotation - only when section is visible
+    if (sectionProgress > 0) {
+      groupRef.current.rotation.y += delta * 0.2;
+    }
     
-    // Pulse nodes
+    // Pulse nodes - scale with section visibility
     groupRef.current.children.forEach((child, i) => {
       if (child.type === 'Mesh' && i < nodes.length) {
-        const pulse = 0.9 + Math.sin(state.clock.elapsedTime * 2 + i * 0.5) * 0.1;
-        child.scale.setScalar(pulse);
+        const basePulse = sectionProgress > 0 
+          ? 0.9 + Math.sin(state.clock.elapsedTime * 2 + i * 0.5) * 0.1
+          : 0.9;
+        child.scale.setScalar(basePulse * sectionProgress);
       }
     });
   });

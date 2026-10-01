@@ -56,8 +56,10 @@ export default function Services3DHolograms({ position }) {
         // Face center
         child.rotation.y = card.angle;
         
-        // Gentle hover pulse
-        const hoverOffset = Math.sin(state.clock.elapsedTime * 2 + i) * 0.15;
+        // Gentle hover pulse - only when section is visible
+        const hoverOffset = sectionProgress > 0 
+          ? Math.sin(state.clock.elapsedTime * 2 + i) * 0.15 
+          : 0;
         child.position.y = card.y + hoverOffset;
       }
     });

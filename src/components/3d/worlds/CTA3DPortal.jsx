@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useScroll, Text, RoundedBox, useTexture } from "@react-three/drei";
 import * as THREE from "three";
@@ -13,7 +13,6 @@ export default function CTA3DPortal({ position }) {
   const archRef = useRef();
   const buttonRef = useRef();
   const scroll = useScroll();
-  const [hover, setHover] = useState(false);
   
   // Load 3 images for orbiting panels
   const textures = useTexture(CTA_PORTAL_IMAGES.slice(0, 3));
@@ -67,12 +66,10 @@ export default function CTA3DPortal({ position }) {
       }
     });
     
-    // Button hover effect
+    // Button glow effect - time-based, no hover state
     if (buttonRef.current) {
-      const targetScale = hover ? 1.1 : 1;
-      buttonRef.current.scale.x = THREE.MathUtils.lerp(buttonRef.current.scale.x, targetScale, delta * 5);
-      buttonRef.current.scale.y = THREE.MathUtils.lerp(buttonRef.current.scale.y, targetScale, delta * 5);
-      buttonRef.current.scale.z = THREE.MathUtils.lerp(buttonRef.current.scale.z, targetScale, delta * 5);
+      const glowPulse = 0.5 + Math.sin(time * 2) * 0.3;
+      buttonRef.current.userData.glowIntensity = glowPulse;
     }
   });
 
@@ -149,13 +146,11 @@ export default function CTA3DPortal({ position }) {
         <RoundedBox
           args={[4, 1.5, 0.5]}
           radius={0.3}
-          onPointerOver={() => setHover(true)}
-          onPointerOut={() => setHover(false)}
         >
           <meshStandardMaterial
             color="#d8bf89"
             emissive="#d8bf89"
-            emissiveIntensity={hover ? 1 : 0.5}
+            emissiveIntensity={0.5}
           />
         </RoundedBox>
         <Text
