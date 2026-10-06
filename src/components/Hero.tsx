@@ -112,9 +112,8 @@ export default function Hero() {
         {/* Full-bleed background image with overlay, text pops on top */}
         {/* Negative margins escape the parent container padding to go edge-to-edge */}
         <div
-          className="lg:hidden relative flex flex-col justify-end -ml-5 sm:-ml-8 md:-ml-12 -mr-0"
+          className="lg:hidden relative flex flex-col justify-end -ml-5 sm:-ml-8 md:-ml-12 -mr-0 -mt-20 sm:-mt-24 min-h-[calc(100svh-2.5rem)] sm:min-h-[calc(100svh-3.5rem)]"
           style={{
-            minHeight: "88svh",
             backgroundImage: "url('/images/hero-main.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center 30%",
@@ -138,14 +137,14 @@ export default function Hero() {
           />
 
           {/* Content — sits above overlay */}
-          <div className="relative z-10 pl-6 pr-6 sm:pl-10 sm:pr-10 pb-12 sm:pb-16 pt-24 sm:pt-28 flex flex-col items-center text-center">
+          <div className="relative z-10 pl-6 pr-6 sm:pl-10 sm:pr-10 pb-16 sm:pb-20 pt-24 sm:pt-28 flex flex-col items-center text-center">
 
             {/* Tag line */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="flex items-center gap-2 mb-5"
+              className="flex items-center gap-2 mb-5 sm:mb-6"
             >
               <div className="w-8 h-[1px] bg-[#a8d5c8]" />
               <span className="text-[9.5px] font-mono tracking-[0.32em] text-[#a8d5c8] uppercase font-semibold">
@@ -159,21 +158,21 @@ export default function Hero() {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.18 }}
-              className="mb-5"
+              className="mb-5 sm:mb-6"
             >
               <span
                 style={{ fontFamily: "'Alex Brush', 'Great Vibes', cursive" }}
-                className="text-[46px] sm:text-[64px] text-white block -mb-2 select-none leading-none drop-shadow-lg"
+                className="text-[46px] sm:text-[64px] md:text-[76px] text-white block -mb-2 select-none leading-none drop-shadow-lg"
               >
                 Maswab Decor
               </span>
               <h1
                 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-                className="text-[42px] sm:text-[54px] font-bold tracking-tight text-white leading-none uppercase drop-shadow-lg"
+                className="text-[42px] sm:text-[54px] md:text-[64px] font-bold tracking-tight text-white leading-none uppercase drop-shadow-lg"
               >
                 EVENT DECOR
               </h1>
-              <div className="w-16 h-[2px] bg-[#a8d5c8] mt-4 mx-auto" />
+              <div className="w-16 sm:w-20 h-[2px] bg-[#a8d5c8] mt-4 mx-auto" />
             </motion.div>
 
             {/* Body */}
@@ -181,7 +180,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.28 }}
-              className="text-[11px] sm:text-[12px] text-white/75 leading-relaxed font-sans uppercase tracking-[0.06em] font-medium max-w-[280px] sm:max-w-sm mb-4"
+              className="text-[11px] sm:text-[12px] md:text-[13px] text-white/75 leading-relaxed font-sans uppercase tracking-[0.06em] font-medium max-w-[280px] sm:max-w-sm md:max-w-md mb-4"
             >
               WEDDINGS · BIRTHDAYS · ENGAGEMENTS · SHIMGINA CEREMONIES · CORPORATE GALAS
             </motion.p>
@@ -191,7 +190,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.35 }}
-              className="text-[9px] font-mono tracking-[0.22em] text-white/40 uppercase font-semibold mb-8"
+              className="text-[9px] sm:text-[10px] font-mono tracking-[0.22em] text-white/40 uppercase font-semibold mb-8"
             >
               <span>MASWAB DECOR</span>
               <span className="mx-2 text-white/20">|</span>
@@ -205,24 +204,41 @@ export default function Hero() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="flex flex-row gap-3 justify-center w-full max-w-xs"
+              className="flex flex-row gap-3 sm:gap-4 justify-center w-full max-w-xs"
             >
               <button
                 onClick={() => scrollToSection("#contact")}
-                className="flex-1 py-3.5 bg-white text-[#0a443a] font-mono text-[10px] font-bold tracking-widest uppercase rounded-full shadow-lg active:scale-95 flex items-center justify-center gap-2"
+                className="flex-1 py-3.5 sm:py-4 bg-white text-[#0a443a] font-mono text-[10px] font-bold tracking-widest uppercase rounded-full shadow-lg active:scale-95 flex items-center justify-center gap-2"
               >
                 <span>BOOK EVENT</span>
                 <ArrowRight size={12} />
               </button>
               <button
                 onClick={() => scrollToSection("#services")}
-                className="flex-1 py-3.5 bg-transparent border border-white/50 text-white font-mono text-[10px] font-semibold tracking-widest uppercase rounded-full active:scale-95 text-center"
+                className="flex-1 py-3.5 sm:py-4 bg-transparent border border-white/50 text-white font-mono text-[10px] font-semibold tracking-widest uppercase rounded-full active:scale-95 text-center"
               >
                 SERVICES
               </button>
             </motion.div>
 
           </div>
+
+          {/* Scroll cue */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10"
+            aria-hidden="true"
+          >
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              className="w-5 h-8 rounded-full border-2 border-white/40 flex items-start justify-center p-1"
+            >
+              <div className="w-1 h-2 rounded-full bg-white/70" />
+            </motion.div>
+          </motion.div>
         </div>
 
       </div>

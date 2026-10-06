@@ -3,42 +3,56 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import { Check, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const values = [
-  "Maswab Decor aesthetic tailored to your unique love story or brand",
-  "Architectural floral styling, ambient lighting & spatial scenography",
-  "Meticulous end-to-end planning with zero day-of stress",
-  "Curated color harmonies, luxurious textiles & custom structures",
+  { icon: "✦", text: "Bespoke aesthetic tailored to your unique story or brand" },
+  { icon: "✦", text: "Architectural florals, ambient lighting & spatial scenography" },
+  { icon: "✦", text: "End-to-end planning with zero day-of stress" },
+  { icon: "✦", text: "Curated color harmonies, luxurious textiles & custom structures" },
 ];
 
 const metrics = [
-  { value: "200+", label: "Celebrations Styled" },
-  { value: "5+", label: "Years of Craft" },
-  { value: "100%", label: "Custom Architecture" },
+  { value: "200+", label: "Celebrations" },
+  { value: "5+", label: "Years" },
+  { value: "100%", label: "Custom" },
 ];
 
 export default function About() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="about" className="relative bg-[#f8faf8] section-padding overflow-hidden border-t border-neutral-200">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 right-0 w-96 h-96 bg-emerald-500/[0.04] rounded-full blur-[140px] pointer-events-none" />
+    <section id="about" className="relative bg-[#fcfbf9] overflow-hidden">
+      {/* Ambient glow */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/[0.035] rounded-full blur-[160px] pointer-events-none" />
 
-      <div ref={ref} className="relative z-10 max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
-          {/* Left Column: Visual Montage */}
+      <div ref={ref} className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 md:px-12 lg:px-16 py-20 sm:py-24 lg:py-28">
+
+        {/* ── Section Label ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="flex items-center gap-3 mb-10 sm:mb-14"
+        >
+          <div className="w-8 h-[1.5px] bg-[#0a443a]" />
+          <span className="font-mono text-[10px] tracking-[0.35em] text-[#0a443a] uppercase font-semibold">
+            OUR PHILOSOPHY
+          </span>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+          {/* ── LEFT: Images ── */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="lg:col-span-6 relative"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="relative"
           >
-            {/* Primary Image */}
-            <div className="relative h-[480px] sm:h-[540px] rounded-3xl overflow-hidden border border-neutral-200 shadow-xl shadow-neutral-900/10">
+            {/* Main image */}
+            <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl shadow-neutral-900/15">
               <Image
                 src="/images/wedding-decor.png"
                 alt="Maswab Decor luxury event styling"
@@ -46,109 +60,127 @@ export default function About() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#061a14]/70 via-transparent to-transparent" />
 
+              {/* Quote on image */}
               <div className="absolute bottom-6 left-6 right-6">
-                <span className="font-mono text-[10px] tracking-[0.3em] text-emerald-300 uppercase block mb-1 font-semibold">
-                  ATELIER STANDARDS
-                </span>
-                <p className="font-serif text-2xl text-white italic">
+                <p
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                  className="text-xl sm:text-2xl text-white italic leading-snug"
+                >
                   &ldquo;Every space holds a ceremony waiting to be unveiled.&rdquo;
                 </p>
               </div>
             </div>
 
-            {/* Overlapping Floating Secondary Image */}
+            {/* Floating secondary image — desktop only */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="absolute -bottom-8 -right-4 sm:-right-8 w-44 sm:w-56 aspect-[4/3] rounded-2xl overflow-hidden border-2 border-emerald-400 shadow-xl shadow-neutral-900/10 hidden sm:block"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="absolute -bottom-6 -right-4 w-36 sm:w-44 aspect-square rounded-xl overflow-hidden border-2 border-white shadow-xl hidden sm:block"
             >
               <Image
                 src="/images/table-arrangement.png"
                 alt="Artisanal table decor"
                 fill
-                sizes="240px"
+                sizes="180px"
                 className="object-cover"
               />
             </motion.div>
 
-            {/* Experience Pill */}
-            <div className="absolute top-6 left-6 px-4 py-2 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-xs font-mono tracking-widest text-emerald-800 uppercase flex items-center gap-2 shadow-sm">
-              <Sparkles size={12} className="text-emerald-600" />
-              EST. ADDIS ABABA
-            </div>
+            {/* Metrics bar — sits below image on mobile, overlaps on desktop */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.35 }}
+              className="mt-6 sm:mt-8 grid grid-cols-3 gap-0 bg-[#0a443a] rounded-2xl overflow-hidden"
+            >
+              {metrics.map((m, i) => (
+                <div
+                  key={m.label}
+                  className={`py-5 px-4 flex flex-col items-center text-center ${i < metrics.length - 1 ? "border-r border-white/10" : ""}`}
+                >
+                  <span
+                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                    className="text-3xl sm:text-4xl font-light text-white leading-none mb-1"
+                  >
+                    {m.value}
+                  </span>
+                  <span className="font-mono text-[9px] tracking-[0.25em] text-white/50 uppercase">
+                    {m.label}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
 
-          {/* Right Column: Editorial Narrative */}
+          {/* ── RIGHT: Text Content ── */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="lg:col-span-6 space-y-7"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+            className="flex flex-col gap-6"
           >
+            {/* Heading */}
             <div>
-              <span className="font-mono text-xs tracking-[0.35em] text-emerald-700 uppercase font-semibold">
-                OUR PHILOSOPHY
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-neutral-900 font-light tracking-wide mt-2 leading-tight">
-                Where Scenography Meets{" "}
-                <span className="italic text-gradient-gold">Poetic Design</span>
+              <h2
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                className="text-4xl sm:text-5xl lg:text-[54px] text-[#0a443a] font-light tracking-tight leading-[1.1]"
+              >
+                Where Scenography
+                <br />
+                <span className="italic">Meets Poetic Design</span>
               </h2>
             </div>
 
-            <p className="text-neutral-600 text-sm sm:text-base leading-relaxed font-sans">
+            {/* Body */}
+            <p className="text-neutral-600 text-[13px] sm:text-sm leading-relaxed">
               Maswab Decor was founded on the conviction that meaningful milestones require more
               than generic decoration — they demand evocative atmospheres. We blend architectural
               compositions, sculptural florals, and warm ambient palettes to fashion events that
               feel timeless and deeply personal.
             </p>
-
-            <p className="text-neutral-600 text-sm sm:text-base leading-relaxed font-sans">
-              From grand cultural Shimglna celebrations and opulent wedding receptions to intimate
-              soirées and prestige galas, our team curates every element with relentless precision.
+            <p className="text-neutral-600 text-[13px] sm:text-sm leading-relaxed">
+              From grand Shimgina celebrations and opulent wedding receptions to intimate
+              soirées and prestige galas, every element is curated with relentless precision.
             </p>
 
-            {/* Core Values */}
-            <ul className="space-y-3 pt-2">
-              {values.map((v) => (
-                <li key={v} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-700 mt-0.5 shrink-0">
-                    <Check size={12} />
-                  </div>
-                  <span className="text-neutral-700 text-sm">{v}</span>
-                </li>
+            {/* Values list */}
+            <ul className="space-y-3 pt-1">
+              {values.map((v, i) => (
+                <motion.li
+                  key={v.text}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+                  className="flex items-start gap-3"
+                >
+                  <span className="text-[#0a443a] text-[10px] mt-1 shrink-0">{v.icon}</span>
+                  <span className="text-neutral-700 text-[13px] sm:text-sm leading-relaxed">{v.text}</span>
+                </motion.li>
               ))}
             </ul>
 
-            {/* Metrics Counters */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-neutral-200">
-              {metrics.map((m) => (
-                <div key={m.label}>
-                  <p className="font-serif text-2xl sm:text-3xl font-light text-emerald-700">
-                    {m.value}
-                  </p>
-                  <p className="font-mono text-[10px] tracking-wider text-neutral-500 uppercase mt-1">
-                    {m.label}
-                  </p>
-                </div>
-              ))}
-            </div>
+            {/* Divider */}
+            <div className="w-full h-[1px] bg-gradient-to-r from-[#0a443a]/20 via-[#0a443a]/10 to-transparent" />
 
             {/* CTA */}
-            <div className="pt-2">
+            <div>
               <a
                 href="#contact"
                 onClick={(e) => {
                   e.preventDefault();
                   document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="inline-flex items-center gap-2 px-7 py-3.5 bg-emerald-600 text-white font-semibold text-xs tracking-wider uppercase rounded-full hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20"
+                className="inline-flex items-center gap-2.5 px-8 py-4 bg-[#0a443a] hover:bg-[#063028] text-white font-mono text-[10px] font-semibold tracking-widest uppercase rounded-full transition-all shadow-lg shadow-[#0a443a]/20 active:scale-95 group"
               >
                 Inquire For Your Date
+                <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
+
           </motion.div>
 
         </div>

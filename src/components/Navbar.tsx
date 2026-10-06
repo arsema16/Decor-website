@@ -53,7 +53,7 @@ export default function Navbar() {
     >
       <nav className="max-w-[1440px] mx-auto px-5 sm:px-8 md:px-12 flex items-center justify-between md:grid md:grid-cols-3">
         
-        {/* ── BRAND LOGO (BOTANICAL BRANCH + MASEWA / MASWAB) ── */}
+        {/* ── BRAND LOGO (BOTANICAL BRANCH + MASWAB) ── */}
         <a
           href="#home"
           onClick={(e) => {
@@ -86,7 +86,7 @@ export default function Navbar() {
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             className="text-[20px] sm:text-[22px] font-bold tracking-[0.22em] text-[#0a443a] leading-none"
           >
-            MASEWA
+            MASWAB
           </span>
           <span className="text-[7.5px] font-mono tracking-[0.38em] uppercase text-[#0a443a]/75 font-semibold mt-0.5">
             EVENT DECOR.
