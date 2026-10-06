@@ -74,12 +74,12 @@ export default function About() {
               </div>
             </div>
 
-            {/* Floating secondary image — desktop only */}
+            {/* Floating secondary image — desktop only, positioned top-right of main image */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="absolute -bottom-6 -right-4 w-36 sm:w-44 aspect-square rounded-xl overflow-hidden border-2 border-white shadow-xl hidden sm:block"
+              className="absolute -top-5 -right-4 w-36 sm:w-44 aspect-square rounded-xl overflow-hidden border-2 border-white shadow-xl hidden sm:block"
             >
               <Image
                 src="/images/table-arrangement.png"
