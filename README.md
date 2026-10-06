@@ -45,8 +45,7 @@ src/
 │   ├── Navbar.tsx        # Fixed navigation with mobile menu
 │   ├── Hero.tsx          # Full-screen hero with parallax background
 │   ├── About.tsx         # About section with images and stats
-│   ├── Services.tsx      # Service cards grid
-│   ├── Portfolio.tsx     # Filterable image gallery
+│   ├── Services.tsx      # Service carousel with category filters
 │   ├── Testimonials.tsx  # Client testimonials carousel
 │   ├── Contact.tsx       # Booking enquiry form
 │   ├── Footer.tsx        # Site footer
@@ -61,8 +60,7 @@ public/
 |---------|-------------|
 | Hero | Full-screen parallax hero with CTA buttons |
 | About | Studio story, values, and key stats |
-| Services | Wedding, Corporate, Birthday, Florals, Themed, Shimglna, Baby Showers |
-| Portfolio | Filterable gallery by event category |
+| Services | Filterable by category: Weddings, Shimglna, Florals, Corporate, Milestones |
 | Testimonials | Client reviews carousel |
 | Contact | Booking form with event type, date, and message |
 | Footer | Navigation, contact info, social links |

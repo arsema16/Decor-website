@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Italiana&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,14 +7,19 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    background-color: #ffffff;
+    color: #18181b;
   }
 
   body {
-    @apply bg-cream-50 text-emerald-950 antialiased;
+    background-color: #ffffff;
+    color: #18181b;
+    overflow-x: hidden;
   }
 
   ::selection {
-    @apply bg-emerald-600 text-white;
+    background-color: #16a34a;
+    color: #ffffff;
   }
 
   ::-webkit-scrollbar {
@@ -20,32 +27,88 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-cream-100;
+    background: #f4f4f5;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-emerald-600 rounded-full;
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #16a34a;
   }
 }
 
 @layer utilities {
-  .text-gradient-gold {
-    @apply bg-gradient-to-r from-gold-500 to-gold-300 bg-clip-text text-transparent;
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  .text-gradient-emerald {
-    @apply bg-gradient-to-r from-emerald-700 to-emerald-500 bg-clip-text text-transparent;
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #15803d 0%, #16a34a 50%, #22c55e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-sand {
+    background: linear-gradient(135deg, #0f172a 0%, #166534 50%, #15803d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .section-padding {
-    @apply px-6 py-24 md:px-12 lg:px-24;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
   }
 
-  .glass {
-    @apply bg-white/70 backdrop-blur-md border border-white/60;
+  @media (min-width: 768px) {
+    .section-padding {
+      padding-left: 3rem;
+      padding-right: 3rem;
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+    }
   }
 
-  .card-hover {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+  @media (min-width: 1024px) {
+    .section-padding {
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
   }
+
+  .glass-dark {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+  }
+
+  .glass-card:hover {
+    border-color: rgba(22, 163, 74, 0.4);
+    box-shadow: 0 15px 35px -10px rgba(22, 163, 74, 0.12);
+  }
+
+  .editorial-hairline {
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }

@@ -1,158 +1,231 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { ArrowDown, Sparkles } from "lucide-react";
-import Image from "next/image";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import MoodBoardMosaic from "./MoodBoardMosaic";
 
 export default function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
   const scrollToSection = (href: string) => {
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
-    <section id="home" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ position: "relative" }}>
-      {/* Parallax background image */}
-      <motion.div style={{ y: bgY }} className="absolute inset-0 scale-110">
-        <Image
-          src="/images/wedding-decor.png"
-          alt="Elegant wedding decoration"
-          fill
-          sizes="100vw"
-          className="object-cover"
-          priority
-        />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/70 via-emerald-900/50 to-emerald-950/80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/40 via-transparent to-emerald-950/40" />
-      </motion.div>
-
-      {/* Floating decorative elements */}
-      <motion.div
-        animate={{ y: [0, -14, 0], rotate: [0, 5, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-32 left-12 md:left-24 w-16 h-16 border-2 border-gold-400/40 rounded-full hidden md:block"
-      />
-      <motion.div
-        animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-40 right-16 md:right-28 w-10 h-10 border-2 border-white/20 rounded-full hidden md:block"
-      />
-      <motion.div
-        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-        className="absolute top-1/3 right-16 w-3 h-3 bg-gold-400 rounded-full hidden md:block"
-      />
-
-      {/* Content */}
-      <motion.div style={{ y: textY, opacity }} className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full mb-8"
-        >
-          <Sparkles size={13} className="text-gold-300" />
-          <span className="text-xs tracking-[0.3em] text-white/80 uppercase font-medium">
-            Event Decoration Studio
-          </span>
-        </motion.div>
-
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.25 }}
-          className="font-serif text-5xl md:text-7xl lg:text-8xl font-light text-white leading-tight mb-6"
-        >
-          Where Every
-          <br />
-          <span className="italic text-gold-300">Moment</span>
-          <br />
-          Becomes Art
-        </motion.h1>
-
-        {/* Divider */}
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="flex items-center justify-center gap-4 mb-8"
-        >
-          <span className="w-16 h-px bg-gold-400/60" />
-          <span className="w-2 h-2 rounded-full bg-gold-400" />
-          <span className="w-16 h-px bg-gold-400/60" />
-        </motion.div>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.6 }}
-          className="text-white/75 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-12"
-        >
-          We craft unforgettable atmospheres for weddings, corporate events,
-          and celebrations — tailored to your story.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.75 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <button
-            onClick={() => scrollToSection("#contact")}
-            className="group px-8 py-4 bg-gold-500 text-white text-sm tracking-wider font-semibold rounded-full hover:bg-gold-400 transition-all duration-300 shadow-lg shadow-gold-500/30 hover:shadow-gold-400/40 hover:scale-105"
+    <section
+      id="home"
+      className="relative min-h-[92svh] bg-[#fcfbf9] text-neutral-900 lg:pt-28 lg:pb-14 flex items-center"
+      style={{ overflowX: "clip" }}
+    >
+      {/* Main Container - Padded on left, Flush to right border */}
+      <div className="relative z-10 w-full pl-5 sm:pl-8 md:pl-12 lg:pl-16 xl:pl-20 pr-0 mr-0">
+        
+        {/* ── DESKTOP LAYOUT (lg:grid) ── */}
+        <div className="hidden lg:grid grid-cols-12 items-center gap-x-8 xl:gap-x-12 lg:min-h-[calc(92svh_-_168px)]">
+          
+          {/* Left Column: Editorial Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="col-span-5 flex flex-col justify-center space-y-5 xl:space-y-6 pr-4 xl:pr-6"
           >
-            Book a Consultation
-          </button>
-          <button
-            onClick={() => scrollToSection("#portfolio")}
-            className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white text-sm tracking-wider font-medium rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105"
-          >
-            View Our Work
-          </button>
-        </motion.div>
+            {/* Title with Cursive "Maswab Decor" Script */}
+            <div>
+              <motion.span
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                style={{ fontFamily: "'Alex Brush', 'Great Vibes', cursive" }}
+                className="text-[52px] xl:text-[66px] text-[#0a443a] block -mb-3 xl:-mb-4 select-none leading-none pl-0.5"
+              >
+                Maswab Decor
+              </motion.span>
 
-        {/* Stats strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1 }}
-          className="flex items-center justify-center gap-8 md:gap-16 mt-16 pt-10 border-t border-white/10"
-        >
-          {[["200+", "Events"], ["5+", "Years"], ["98%", "Satisfaction"]].map(([val, label]) => (
-            <div key={label} className="text-center">
-              <p className="font-serif text-2xl md:text-3xl text-gold-300 font-light">{val}</p>
-              <p className="text-[11px] tracking-widest text-white/50 uppercase mt-1">{label}</p>
+              <motion.h1
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                className="text-[44px] xl:text-[56px] font-bold tracking-tight text-[#0a443a] leading-none uppercase"
+              >
+                EVENT DECOR
+              </motion.h1>
+
+              {/* Decorative Teal Underline */}
+              <div className="w-14 sm:w-16 h-[2px] bg-[#0a443a] mt-2.5 mb-4" />
             </div>
-          ))}
-        </motion.div>
-      </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4 }}
-        onClick={() => scrollToSection("#about")}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 hover:text-gold-300 transition-colors"
-        aria-label="Scroll down"
-      >
-        <span className="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-        <motion.div animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 1.8 }}>
-          <ArrowDown size={16} />
-        </motion.div>
-      </motion.button>
+            {/* What We Do Kicker & Body Text */}
+            <div className="space-y-2 pt-1">
+              <span className="text-[10.5px] font-mono tracking-[0.25em] text-[#0a443a] font-semibold uppercase block">
+                WHAT WE DO
+              </span>
+              <p className="text-[11.5px] xl:text-[12px] text-neutral-600 leading-relaxed font-sans uppercase tracking-[0.04em] font-medium max-w-lg">
+                MASWAB DECOR DESIGNS AND STYLES FULL VENUES FOR WEDDINGS, SHIMGINA CEREMONIES, BIRTHDAYS, ENGAGEMENTS, AND CORPORATE GALAS — FRESH FLORALS, DRAPERY, LIGHTING, BALLOONS, AND STAGING, HANDLED END TO END FROM OUR ADDIS ABABA STUDIO.
+              </p>
+            </div>
+
+            {/* Studio Meta Line */}
+            <div className="pt-1 text-[10.5px] font-mono tracking-[0.22em] text-[#0a443a] uppercase font-semibold">
+              <span>MASWAB DECOR</span>
+              <span className="mx-2.5 text-neutral-300 font-normal">|</span>
+              <span className="text-neutral-500 font-normal">FLORALS</span>
+              <span className="mx-2.5 text-neutral-300 font-normal">|</span>
+              <span>STYLING</span>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="pt-2 flex flex-row gap-3.5 items-center">
+              <button
+                onClick={() => scrollToSection("#contact")}
+                className="group px-8 py-3.5 bg-[#0a443a] hover:bg-[#063028] text-white font-mono text-xs font-semibold tracking-widest uppercase rounded-full transition-all shadow-md shadow-[#0a443a]/20 active:scale-95 flex items-center justify-center gap-2"
+              >
+                <span>BOOK EVENT</span>
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <button
+                onClick={() => scrollToSection("#services")}
+                className="px-8 py-3.5 bg-transparent hover:bg-[#0a443a]/5 border border-[#0a443a] text-[#0a443a] font-mono text-xs font-semibold tracking-widest uppercase rounded-full transition-all active:scale-95 text-center"
+              >
+                SERVICES
+              </button>
+            </div>
+          </motion.div>
+
+          {/* Right Column: Diamond Mosaic — bleeds to viewport edge */}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+            className="col-span-7 w-full pr-0 mr-0 self-start lg:-mt-28"
+            style={{ overflow: "visible" }}
+          >
+            <MoodBoardMosaic />
+          </motion.div>
+
+        </div>
+
+        {/* ── MOBILE / TABLET LAYOUT ── */}
+        {/* Full-bleed background image with overlay, text pops on top */}
+        {/* Negative margins escape the parent container padding to go edge-to-edge */}
+        <div
+          className="lg:hidden relative flex flex-col justify-end -ml-5 sm:-ml-8 md:-ml-12 -mr-0"
+          style={{
+            minHeight: "88svh",
+            backgroundImage: "url('/images/hero-main.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center 30%",
+          }}
+        >
+          {/* Dark gradient overlay — strong at bottom where text lives */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(10,68,58,0.18) 0%, rgba(10,68,58,0.35) 40%, rgba(6,32,28,0.82) 72%, rgba(4,22,18,0.96) 100%)",
+            }}
+          />
+
+          {/* Subtle top-left vignette so logo area stays clean */}
+          <div
+            className="absolute top-0 left-0 right-0 h-40 pointer-events-none"
+            style={{
+              background: "linear-gradient(to bottom, rgba(4,22,18,0.45) 0%, transparent 100%)",
+            }}
+          />
+
+          {/* Content — sits above overlay */}
+          <div className="relative z-10 pl-6 pr-6 sm:pl-10 sm:pr-10 pb-12 sm:pb-16 pt-24 sm:pt-28 flex flex-col items-center text-center">
+
+            {/* Tag line */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="flex items-center gap-2 mb-5"
+            >
+              <div className="w-8 h-[1px] bg-[#a8d5c8]" />
+              <span className="text-[9.5px] font-mono tracking-[0.32em] text-[#a8d5c8] uppercase font-semibold">
+                ADDIS ABABA STUDIO
+              </span>
+              <div className="w-8 h-[1px] bg-[#a8d5c8]" />
+            </motion.div>
+
+            {/* Title */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18 }}
+              className="mb-5"
+            >
+              <span
+                style={{ fontFamily: "'Alex Brush', 'Great Vibes', cursive" }}
+                className="text-[46px] sm:text-[64px] text-white block -mb-2 select-none leading-none drop-shadow-lg"
+              >
+                Maswab Decor
+              </span>
+              <h1
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                className="text-[42px] sm:text-[54px] font-bold tracking-tight text-white leading-none uppercase drop-shadow-lg"
+              >
+                EVENT DECOR
+              </h1>
+              <div className="w-16 h-[2px] bg-[#a8d5c8] mt-4 mx-auto" />
+            </motion.div>
+
+            {/* Body */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.28 }}
+              className="text-[11px] sm:text-[12px] text-white/75 leading-relaxed font-sans uppercase tracking-[0.06em] font-medium max-w-[280px] sm:max-w-sm mb-4"
+            >
+              WEDDINGS · BIRTHDAYS · ENGAGEMENTS · SHIMGINA CEREMONIES · CORPORATE GALAS
+            </motion.p>
+
+            {/* Meta */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35 }}
+              className="text-[9px] font-mono tracking-[0.22em] text-white/40 uppercase font-semibold mb-8"
+            >
+              <span>MASWAB DECOR</span>
+              <span className="mx-2 text-white/20">|</span>
+              <span>FLORALS</span>
+              <span className="mx-2 text-white/20">|</span>
+              <span>STYLING</span>
+            </motion.div>
+
+            {/* Buttons — side by side, fixed width, centered */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="flex flex-row gap-3 justify-center w-full max-w-xs"
+            >
+              <button
+                onClick={() => scrollToSection("#contact")}
+                className="flex-1 py-3.5 bg-white text-[#0a443a] font-mono text-[10px] font-bold tracking-widest uppercase rounded-full shadow-lg active:scale-95 flex items-center justify-center gap-2"
+              >
+                <span>BOOK EVENT</span>
+                <ArrowRight size={12} />
+              </button>
+              <button
+                onClick={() => scrollToSection("#services")}
+                className="flex-1 py-3.5 bg-transparent border border-white/50 text-white font-mono text-[10px] font-semibold tracking-widest uppercase rounded-full active:scale-95 text-center"
+              >
+                SERVICES
+              </button>
+            </motion.div>
+
+          </div>
+        </div>
+
+      </div>
     </section>
   );
 }

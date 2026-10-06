@@ -1,272 +1,305 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
-import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
-import Image from "next/image";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Phone, Mail, CheckCircle, MessageCircle, Sparkles, Send } from "lucide-react";
 
-const eventTypes = [
-  "Wedding",
-  "Corporate Event",
-  "Birthday Celebration",
-  "Engagement / Baby Shower",
-  "Themed Event",
-  "Other",
-];
-
-const contactInfo = [
-  {
-    icon: Phone,
-    label: "Phone / WhatsApp",
-    value: "0956 457 728  ·  0904 382 752",
-    href: "tel:+251956457728",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "hello@maswabdecor.com",
-    href: "mailto:hello@maswabdecor.com",
-  },
-  {
-    icon: MapPin,
-    label: "Location",
-    value: "Available across the city & surroundings",
-    href: null,
-  },
-];
-
-type FormState = {
-  name: string;
-  email: string;
-  phone: string;
-  eventType: string;
-  eventDate: string;
-  message: string;
-};
-
-const initialForm: FormState = {
-  name: "", email: "", phone: "", eventType: "", eventDate: "", message: "",
-};
+const FORMSPREE_ENDPOINT = (() => {
+  const fromEnv = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+  if (!fromEnv || fromEnv.includes("REPLACE_ME")) return "https://formspree.io/f/mvkzggeo";
+  return fromEnv;
+})();
 
 export default function Contact() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-  const [form, setForm] = useState<FormState>(initialForm);
+  const [form, setForm] = useState({
+    name: "",
+    emailOrPhone: "",
+    message: "",
+  });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1400));
-    setLoading(false);
-    setSubmitted(true);
+    setError(null);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          emailOrPhone: form.emailOrPhone,
+          message: form.message,
+          _subject: `New event enquiry from ${form.name}`,
+        }),
+      });
+      if (!res.ok) throw new Error(`Formspree responded with ${res.status}`);
+      setForm({ name: "", emailOrPhone: "", message: "" });
+      setSubmitted(true);
+    } catch {
+      setError(
+        "We could not send your message. Please try again, or use WhatsApp / call us directly."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Generate the coil path loops along the bottom of the card
+  const generateCoilPath = () => {
+    let d = "M 85 295 C 75 320, 60 345, 80 355 C 95 362, 115 355, 130 355 ";
+    const startX = 130;
+    const endX = 760;
+    const loopWidth = 14;
+    const totalLoops = Math.floor((endX - startX) / loopWidth);
+
+    for (let i = 0; i < totalLoops; i++) {
+      const x = startX + i * loopWidth;
+      // Elliptical spring loop
+      d += `C ${x + 4} 340, ${x + 12} 340, ${x + 12} 355 C ${x + 12} 370, ${x + 4} 370, ${x} 355 `;
+    }
+    return d;
   };
 
   return (
-    <section id="contact" className="relative bg-cream-50 section-padding overflow-hidden">
-      {/* Decorative background image strip */}
-      <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-500 via-gold-400 to-emerald-500" />
+    <section
+      id="contact"
+      className="relative py-20 px-4 sm:px-6 lg:px-8 bg-[#f8faf8] border-t border-neutral-200 overflow-hidden"
+    >
+      {/* Subtle ambient lighting */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(34,197,94,0.08)_0%,_transparent_60%)] pointer-events-none" />
 
-      <div ref={ref} className="relative z-10 max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <p className="text-xs tracking-[0.4em] text-emerald-600 uppercase font-semibold mb-3">
-            Get in Touch
-          </p>
-          <h2 className="font-serif text-4xl md:text-5xl text-emerald-950 mb-4">
-            Let&apos;s Plan Your{" "}
-            <span className="italic text-gradient-emerald">Dream Event</span>
-          </h2>
-          <p className="text-emerald-800/60 text-sm max-w-xl mx-auto">
-            Tell us about your event and we&apos;ll get back to you within 24 hours.
-          </p>
-        </motion.div>
+      {/* Main floating card reproducing the reference image */}
+      <div className="relative max-w-5xl mx-auto bg-white text-neutral-800 rounded-[36px] sm:rounded-[44px] p-6 sm:p-12 lg:p-16 shadow-xl shadow-neutral-900/5 border border-neutral-200/90 overflow-hidden">
+        
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+          
+          {/* LEFT: Realistic Tactile Telephone Handset */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center relative select-none">
+            <a
+              href="tel:+251956457728"
+              className="group relative cursor-pointer flex flex-col items-center"
+              title="Click to dial Maswab Decor directly"
+            >
+              {/* Handset Vector Artwork */}
+              <div className="relative w-32 h-64 sm:w-40 sm:h-80 drop-shadow-[0_20px_35px_rgba(22,163,74,0.25)] group-hover:scale-105 transition-transform duration-300">
+                {/* Handset Body SVG */}
+                <svg viewBox="0 0 160 320" className="w-full h-full" fill="none">
+                  {/* Grip Bar */}
+                  <rect
+                    x="62"
+                    y="75"
+                    width="36"
+                    height="170"
+                    rx="18"
+                    fill="url(#handset-gradient)"
+                  />
+                  {/* Grip Bar Highlight */}
+                  <rect
+                    x="66"
+                    y="80"
+                    width="8"
+                    height="160"
+                    rx="4"
+                    fill="white"
+                    opacity="0.25"
+                  />
 
-        <div className="grid lg:grid-cols-5 gap-12 items-start">
-          {/* Left — info + image */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:col-span-2 space-y-8"
-          >
-            {/* Image */}
-            <div className="relative h-52 rounded-2xl overflow-hidden shadow-lg">
-              <Image
-                src="https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Wedding ceremony decoration"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/50 to-transparent" />
-              <div className="absolute bottom-4 left-4">
-                <p className="font-serif text-white text-lg italic">Ready to create magic?</p>
+                  {/* Top Earpiece Bell */}
+                  <circle cx="80" cy="70" r="50" fill="url(#handset-gradient)" />
+                  <circle cx="80" cy="70" r="44" fill="#15803d" />
+                  <circle cx="80" cy="70" r="38" fill="url(#handset-gradient)" />
+                  {/* Concentric Acoustic Grooves */}
+                  <circle cx="80" cy="70" r="30" stroke="#166534" strokeWidth="2.5" />
+                  <circle cx="80" cy="70" r="22" stroke="#166534" strokeWidth="2.5" />
+                  <circle cx="80" cy="70" r="14" stroke="#166534" strokeWidth="2.5" />
+                  <circle cx="80" cy="70" r="6" fill="#14532d" />
+
+                  {/* Bottom Mouthpiece Bell */}
+                  <circle cx="80" cy="250" r="50" fill="url(#handset-gradient)" />
+                  <circle cx="80" cy="250" r="44" fill="#15803d" />
+                  <circle cx="80" cy="250" r="38" fill="url(#handset-gradient)" />
+                  {/* Concentric Acoustic Grooves */}
+                  <circle cx="80" cy="250" r="30" stroke="#166534" strokeWidth="2.5" />
+                  <circle cx="80" cy="250" r="22" stroke="#166534" strokeWidth="2.5" />
+                  <circle cx="80" cy="250" r="14" stroke="#166534" strokeWidth="2.5" />
+                  <circle cx="80" cy="250" r="6" fill="#14532d" />
+
+                  {/* Cord socket base */}
+                  <rect x="74" y="295" width="12" height="10" rx="3" fill="#14532d" />
+
+                  <defs>
+                    <linearGradient id="handset-gradient" x1="0" y1="0" x2="160" y2="320" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stopColor="#4ade80" />
+                      <stop offset="45%" stopColor="#16a34a" />
+                      <stop offset="100%" stopColor="#15803d" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+
+                {/* Ringing pulse indicator */}
+                <span className="absolute top-4 right-4 w-4 h-4 rounded-full bg-emerald-500 animate-ping" />
               </div>
+
+              {/* Direct call hint below handset */}
+              <div className="mt-2 text-center">
+                <span className="font-mono text-[11px] font-semibold text-emerald-800 tracking-wider uppercase block">
+                  Click to Call 0956 457 728
+                </span>
+                <span className="text-[11px] text-neutral-500 font-sans">
+                  Direct Line · Instant Consultation
+                </span>
+              </div>
+            </a>
+          </div>
+
+          {/* RIGHT: Minimalist Clean Contact Form */}
+          <div className="lg:col-span-7 space-y-6">
+            <div>
+              <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-neutral-900 tracking-tight">
+                Plan your event?
+              </h2>
+              <p className="text-neutral-600 text-sm sm:text-base font-sans mt-1">
+                Tell us your date, venue, and decor vision — we reply with a proposal within 24 hours.
+              </p>
             </div>
 
-            {/* Contact info */}
-            <div className="space-y-5">
-              {contactInfo.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div key={item.label} className="flex gap-4 items-start">
-                    <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-700 shrink-0">
-                      <Icon size={16} strokeWidth={1.8} />
-                    </div>
-                    <div>
-                      <p className="text-xs tracking-wider text-emerald-600 uppercase font-semibold mb-0.5">
-                        {item.label}
-                      </p>
-                      {item.href ? (
-                        <a href={item.href} className="text-emerald-900 text-sm hover:text-emerald-600 transition-colors">
-                          {item.value}
-                        </a>
-                      ) : (
-                        <p className="text-emerald-900/70 text-sm">{item.value}</p>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <p className="text-emerald-700/50 text-xs leading-relaxed">
-              We typically respond within 24 hours. For urgent enquiries, reach us directly on WhatsApp.
-            </p>
-          </motion.div>
-
-          {/* Right — form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="lg:col-span-3"
-          >
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-white rounded-3xl p-12 text-center flex flex-col items-center gap-5 shadow-lg"
+                className="bg-emerald-50 border border-emerald-300 rounded-2xl p-8 text-center space-y-3"
               >
-                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center">
-                  <CheckCircle size={32} className="text-emerald-600" strokeWidth={1.5} />
+                <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center mx-auto shadow-md">
+                  <CheckCircle size={24} />
                 </div>
-                <h3 className="font-serif text-2xl text-emerald-950">Message Received</h3>
-                <p className="text-emerald-800/60 text-sm max-w-sm leading-relaxed">
-                  Thank you for reaching out. We&apos;ll review your enquiry and get back to you within 24 hours.
+                <h3 className="font-serif text-2xl text-neutral-900 font-semibold">Message Received</h3>
+                <p className="text-neutral-600 text-sm max-w-sm mx-auto font-sans leading-relaxed">
+                  Thank you! We have received your details and our team will contact you within 24 hours.
                 </p>
                 <button
-                  onClick={() => { setSubmitted(false); setForm(initialForm); }}
-                  className="mt-2 text-emerald-600 text-xs tracking-wider hover:text-emerald-500 transition-colors font-medium"
+                  onClick={() => setSubmitted(false)}
+                  className="font-mono text-xs uppercase tracking-wider text-emerald-700 font-semibold hover:underline pt-2 block mx-auto"
                 >
                   Send another message
                 </button>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-8 md:p-10 shadow-lg space-y-5">
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs tracking-wider text-emerald-700 uppercase font-semibold">
-                      Full Name <span className="text-rose-500">*</span>
-                    </label>
-                    <input
-                      type="text" name="name" required value={form.name} onChange={handleChange}
-                      placeholder="Your name"
-                      className="bg-cream-50 border border-cream-300 rounded-xl px-4 py-3 text-sm text-emerald-900 placeholder:text-emerald-900/30 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 transition-all"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs tracking-wider text-emerald-700 uppercase font-semibold">
-                      Email <span className="text-rose-500">*</span>
-                    </label>
-                    <input
-                      type="email" name="email" required value={form.email} onChange={handleChange}
-                      placeholder="your@email.com"
-                      className="bg-cream-50 border border-cream-300 rounded-xl px-4 py-3 text-sm text-emerald-900 placeholder:text-emerald-900/30 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 transition-all"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs tracking-wider text-emerald-700 uppercase font-semibold">
-                      Phone / WhatsApp
-                    </label>
-                    <input
-                      type="tel" name="phone" value={form.phone} onChange={handleChange}
-                      placeholder="+251 000 000 000"
-                      className="bg-cream-50 border border-cream-300 rounded-xl px-4 py-3 text-sm text-emerald-900 placeholder:text-emerald-900/30 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 transition-all"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs tracking-wider text-emerald-700 uppercase font-semibold">
-                      Event Type <span className="text-rose-500">*</span>
-                    </label>
-                    <select
-                      name="eventType" required value={form.eventType} onChange={handleChange}
-                      className="bg-cream-50 border border-cream-300 rounded-xl px-4 py-3 text-sm text-emerald-900 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 transition-all appearance-none"
-                    >
-                      <option value="">Select event type</option>
-                      {eventTypes.map((t) => (
-                        <option key={t} value={t}>{t}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs tracking-wider text-emerald-700 uppercase font-semibold">
-                    Event Date
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Name */}
+                <div className="space-y-1">
+                  <label className="font-sans text-xs font-medium text-neutral-700">
+                    Name and surname
                   </label>
                   <input
-                    type="date" name="eventDate" value={form.eventDate} onChange={handleChange}
-                    className="bg-cream-50 border border-cream-300 rounded-xl px-4 py-3 text-sm text-emerald-900/70 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 transition-all"
-                    style={{ colorScheme: "light" }}
+                    type="text"
+                    name="name"
+                    required
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Elena Vance"
+                    className="w-full bg-neutral-100 border border-neutral-200 rounded-xl px-4 py-3.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:bg-white transition-all font-sans"
                   />
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs tracking-wider text-emerald-700 uppercase font-semibold">
-                    Tell Us About Your Event <span className="text-rose-500">*</span>
+                {/* Email / Phone */}
+                <div className="space-y-1">
+                  <label className="font-sans text-xs font-medium text-neutral-700">
+                    Email or phone number
+                  </label>
+                  <input
+                    type="text"
+                    name="emailOrPhone"
+                    required
+                    value={form.emailOrPhone}
+                    onChange={handleChange}
+                    placeholder="elena@example.com or 09..."
+                    className="w-full bg-neutral-100 border border-neutral-200 rounded-xl px-4 py-3.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:bg-white transition-all font-sans"
+                  />
+                </div>
+
+                {/* Message / Details */}
+                <div className="space-y-1">
+                  <label className="font-sans text-xs font-medium text-neutral-700">
+                    Please enter the details of your request.
                   </label>
                   <textarea
-                    name="message" required rows={5} value={form.message} onChange={handleChange}
-                    placeholder="Describe your vision, number of guests, budget, or anything you'd like us to know..."
-                    className="bg-cream-50 border border-cream-300 rounded-xl px-4 py-3 text-sm text-emerald-900 placeholder:text-emerald-900/30 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 transition-all resize-none"
+                    name="message"
+                    required
+                    rows={4}
+                    value={form.message}
+                    onChange={handleChange}
+                    placeholder="Describe your event date, venue, guest count, or vision..."
+                    className="w-full bg-neutral-100 border border-neutral-200 rounded-xl px-4 py-3.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:bg-white transition-all font-sans resize-none"
                   />
                 </div>
 
-                <button
-                  type="submit" disabled={loading}
-                  className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-emerald-700 text-white text-sm font-semibold rounded-xl hover:bg-emerald-600 transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {loading ? (
-                    <>
-                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send size={15} />
-                      Send Enquiry
-                    </>
-                  )}
-                </button>
+                {error && (
+                  <p className="text-xs font-sans text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                    {error}
+                  </p>
+                )}
+
+                {/* Submit Row matching the reference image */}
+                <div className="flex items-center justify-between pt-2">
+                  <div className="flex items-center gap-3">
+                    <a
+                      href="https://wa.me/251956457728"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-emerald-700 hover:text-emerald-800 hover:underline font-semibold"
+                    >
+                      <MessageCircle size={14} />
+                      WhatsApp Direct
+                    </a>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold tracking-widest uppercase rounded-xl shadow-lg shadow-emerald-600/30 active:scale-95 transition-all disabled:opacity-50"
+                  >
+                    {loading ? "Sending..." : "SUBMIT"}
+                  </button>
+                </div>
               </form>
             )}
-          </motion.div>
+          </div>
         </div>
+
+        {/* The Coiled Spiral Phone Cord running horizontally along the bottom */}
+        <div className="w-full mt-8 relative overflow-hidden select-none">
+          <svg viewBox="0 0 850 60" className="w-full h-auto" fill="none" preserveAspectRatio="xMidYMid meet">
+            {/* The Coil Path */}
+            <path
+              d={generateCoilPath()}
+              stroke="#16a34a"
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="drop-shadow-[0_4px_6px_rgba(22,163,74,0.2)]"
+            />
+            {/* Highlight line on coil */}
+            <path
+              d={generateCoilPath()}
+              stroke="#86efac"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.8"
+            />
+          </svg>
+        </div>
+
       </div>
     </section>
   );

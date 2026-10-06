@@ -9,39 +9,48 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: {
-          50: "#fdfcf7",
-          100: "#faf6ed",
-          200: "#f4ecda",
-          300: "#ecdfc2",
-          400: "#e0cc9e",
-          500: "#d4b87a",
+        dark: {
+          950: "#070708",
+          900: "#0c0c0e",
+          850: "#121215",
+          800: "#18181d",
+          750: "#202026",
+          700: "#2a2a32",
+          600: "#3d3d47",
+        },
+        ochre: {
+          300: "#86efac",
+          400: "#4ade80",
+          500: "#16a34a",
+          600: "#15803d",
+          700: "#166534",
+        },
+        sand: {
+          100: "#f0fdf4",
+          200: "#dcfce7",
+          300: "#bbf7d0",
+          400: "#86efac",
+          500: "#4ade80",
+          600: "#22c55e",
         },
         gold: {
-          300: "#f0c95e",
-          400: "#e8b840",
-          500: "#d4941a",
-          600: "#b87213",
+          300: "#bbf7d0",
+          400: "#86efac",
+          500: "#22c55e",
+          600: "#16a34a",
         },
-        emerald: {
-          50: "#ecfdf5",
-          100: "#d1fae5",
-          400: "#34d399",
-          500: "#10b981",
-          600: "#059669",
-          700: "#047857",
-          800: "#065f46",
-          900: "#064e3b",
-          950: "#022c22",
-        },
-        rose: {
-          400: "#fb7185",
-          500: "#f43f5e",
+        cream: {
+          50: "#0c0c0e",
+          100: "#141418",
+          200: "#1c1c22",
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
-        serif: ["var(--font-cormorant)", "serif"],
+        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        serif: ["'Playfair Display'", "'Cormorant Garamond'", "Georgia", "serif"],
+        editorial: ["'Bodoni Moda'", "'Playfair Display'", "'Cormorant Garamond'", "Georgia", "serif"],
+        italiana: ["'Italiana'", "'Cormorant Garamond'", "Georgia", "serif"],
+        script: ["'Alex Brush'", "'Great Vibes'", "cursive"],
       },
       keyframes: {
         fadeUp: {
@@ -54,7 +63,7 @@ const config: Config = {
         },
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-12px)" },
+          "50%": { transform: "translateY(-10px)" },
         },
         shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
@@ -64,7 +73,7 @@ const config: Config = {
       animation: {
         "fade-up": "fadeUp 0.7s ease-out forwards",
         "fade-in": "fadeIn 0.6s ease-out forwards",
-        float: "float 4s ease-in-out infinite",
+        float: "float 5s ease-in-out infinite",
         shimmer: "shimmer 2.5s linear infinite",
       },
     },
