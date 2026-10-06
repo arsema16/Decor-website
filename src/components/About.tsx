@@ -74,21 +74,7 @@ export default function About() {
               </div>
             </div>
 
-            {/* Floating secondary image — desktop only, positioned top-right of main image */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="absolute -top-5 -right-4 w-36 sm:w-44 aspect-square rounded-xl overflow-hidden border-2 border-white shadow-xl hidden sm:block"
-            >
-              <Image
-                src="/images/table-arrangement.png"
-                alt="Artisanal table decor"
-                fill
-                sizes="180px"
-                className="object-cover"
-              />
-            </motion.div>
+
 
             {/* Metrics bar — sits below image on mobile, overlaps on desktop */}
             <motion.div
